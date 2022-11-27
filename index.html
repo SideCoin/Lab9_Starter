@@ -86,7 +86,14 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "002f2db90dec4fd0a5a2ce35b2cd52e0"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                          
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -99,9 +106,117 @@
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
     // Start your code here
     // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener('click', () => {
+      console.log('Console Log Demo');
+    });
+    errorBtns[1].addEventListener('click', () => {
+      console.error('Console error Demo');
+    });
+    errorBtns[2].addEventListener('click', () => {
+      console.count('Count Button');
+    });
+    errorBtns[3].addEventListener('click', () => {
+      console.warn('Console Warn Button');
+    });
+    errorBtns[4].addEventListener('click', () => {
+      const x = 2;
+      const errMsg = 'the number does not equal 3'
+      console.assert(x == 3, {x, errMsg});
+    });
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(document.location);
+    });
+    errorBtns[7].addEventListener('click', () => {
+      console.dirxml(errorBtns);
+    });
+    errorBtns[8].addEventListener('click', () => {
+      console.group('group start');
+    });
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd();
+    });
+    errorBtns[10].addEventListener('click', () => {
+      var people = [
+        {
+          first: 'René',
+          last: 'Magritte',
+        },
+        {
+          first: 'Chaim',
+          last: 'Soutine',
+          birthday: '18930113',
+        },
+        {
+          first: 'Henri',
+          last: 'Matisse',
+        }
+      ];
+      console.table(people);
+    });
+    errorBtns[11].addEventListener('click', () => {
+      console.time();
+    });
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd();
+      return;
+    });
+    errorBtns[13].addEventListener('click', () => {
+      function foo() {
+        function bar() {
+          console.trace();
+        }
+        bar();
+      }
+      foo();
+    });
+    errorBtns[14].addEventListener('click', () => {
+      window.onerror = () => {
+        console.log("Error caught");
+      }
+      let x = [1,2];
+      console.log(happy);
+    });
+    let failjson = `{ "name": "Jess" }`
+    try {
+      const user = JSON.parse(failjson);
+      if(!user.age) {
+        throw new SyntaxError('no age');
+      }
+      console.log(user);
+    }
+    catch(error) {
+      console.log(error);
+    }
+    finally {
+      console.log('Always runs!');  
+    }
+    class ValidationError extends Error {
+      constructor(message) {
+      super(message);
+      this.name = "ValidationError";
+      }
+    }
+    try {
+      const user = JSON.parse(failjson);
+      if(!user.name) {
+        throw new SyntaxError('no name');
+      }
+      if(user.name !== 'Kevin') {
+        throw new ValidationError("Not Kevin!");
+      }
+    }
+    catch(err) {
+      console.log(err);
+    }
+    if(window.onerror) {
+      TrackJS.track('Testing TrackJS!');
+      console.log("HMMM!!!!")
+    }
   </script>
 </body>
 
